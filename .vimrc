@@ -1,41 +1,41 @@
-" PlugInstall
 call plug#begin('~/.vim/plugged')
-Plug 'ervandew/supertab'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'raimondi/delimitMate'
-Plug 'bling/vim-airline'
-Plug 'scrooloose/syntastic'
-Plug 'kien/ctrlp.vim'
-Plug 'mhinz/vim-startify'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-ragtag'
-Plug 'pangloss/vim-javascript'
-Plug 'Shougo/unite.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'mhinz/vim-signify'
-Plug 'Valloric/YouCompleteMe'
-Plug 'marijnh/tern_for_vim'
-Plug 'dkprice/vim-easygrep'
-Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'mbbill/undotree'
-" Colorschemes
-Plug 'junegunn/seoul256.vim'
-Plug 'morhetz/gruvbox'
-" Frontend
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'mattn/emmet-vim'
-Plug 'briancollins/vim-jst'
-Plug 'groenewege/vim-less'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'helino/vim-json'
-Plug 'maksimr/vim-jsbeautify'
-Plug 'einars/js-beautify'
-Plug 'kewah/vim-cssfmt'
+	" Extend
+	Plug 'ervandew/supertab'
+	Plug 'nathanaelkane/vim-indent-guides'
+	Plug 'raimondi/delimitMate'
+	Plug 'bling/vim-airline'
+	Plug 'scrooloose/syntastic'
+	Plug 'kien/ctrlp.vim'
+	Plug 'mhinz/vim-signify'
+	Plug 'mhinz/vim-startify'
+	Plug 'tpope/vim-surround'
+	Plug 'tpope/vim-sensible'
+	Plug 'tpope/vim-vinegar'
+	Plug 'tpope/vim-commentary'
+	Plug 'tpope/vim-ragtag'
+	Plug 'pangloss/vim-javascript'
+	Plug 'Shougo/unite.vim'
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets'
+	Plug 'Valloric/YouCompleteMe'
+	Plug 'marijnh/tern_for_vim'
+	Plug 'dkprice/vim-easygrep'
+	Plug 'junegunn/rainbow_parentheses.vim'
+	Plug 'mbbill/undotree'
+	" Colorschemes
+	Plug 'junegunn/seoul256.vim'
+	Plug 'morhetz/gruvbox'
+	" Frontend
+	Plug 'cakebaker/scss-syntax.vim'
+	Plug 'mattn/emmet-vim'
+	Plug 'briancollins/vim-jst'
+	Plug 'groenewege/vim-less'
+	Plug 'hail2u/vim-css3-syntax'
+	Plug 'jelera/vim-javascript-syntax'
+	Plug 'helino/vim-json'
+	Plug 'maksimr/vim-jsbeautify'
+	Plug 'einars/js-beautify'
+	Plug 'kewah/vim-cssfmt'
 call plug#end()
 
 " Set 256 colors
@@ -83,9 +83,9 @@ set fileformats=unix,dos
 if has("gui_running")
 	" hide unnecessary gui in gVim
 	set guioptions-=m  " remove menu bar
-  set guioptions-=T  " remove toolbar
-  set guioptions-=r  " remove right-hand scroll bar
-  set guioptions-=L  " remove left-hand scroll bar
+	set guioptions-=T  " remove toolbar
+	set guioptions-=r  " remove right-hand scroll bar
+	set guioptions-=L  " remove left-hand scroll bar
 	set linespace=3
 
 	" When pressing <D-s> in gvim go to normal mode
@@ -124,8 +124,8 @@ set textwidth=80
 " UndoTree 
 nnoremap <F5> :UndotreeToggle<cr>
 if has("persistent_undo")
-    set undodir='~/.undodir/'
-    set undofile
+	set undodir='~/.undodir/'
+	set undofile
 endif
 
 " Syntastic
