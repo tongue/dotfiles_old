@@ -14,17 +14,21 @@ call plug#begin('~/.vim/plugged')
 	Plug 'tpope/vim-commentary'
 	Plug 'tpope/vim-ragtag'
 	Plug 'pangloss/vim-javascript'
-	Plug 'Shougo/unite.vim'
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
 	Plug 'Valloric/YouCompleteMe'
 	Plug 'marijnh/tern_for_vim'
-	Plug 'dkprice/vim-easygrep'
 	Plug 'junegunn/rainbow_parentheses.vim'
 	Plug 'mbbill/undotree'
+	Plug 'dyng/ctrlsf.vim'
+	Plug 'myusuf3/numbers.vim'
+	Plug 'terryma/vim-multiple-cursors'
 	" Colorschemes
 	Plug 'junegunn/seoul256.vim'
 	Plug 'morhetz/gruvbox'
+	Plug 'chriskempson/base16-vim'
+	" Backend
+	Plug 'vim-scripts/aspnetcs'
 	" Frontend
 	Plug 'cakebaker/scss-syntax.vim'
 	Plug 'mattn/emmet-vim'
@@ -36,6 +40,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'maksimr/vim-jsbeautify'
 	Plug 'einars/js-beautify'
 	Plug 'kewah/vim-cssfmt'
+	Plug 'mustache/vim-mustache-handlebars'
 call plug#end()
 
 " Set 256 colors
@@ -62,7 +67,7 @@ filetype indent on
 let mapleader="\<space>"
 
 " reload files changed outside vim
-set autoread         
+set autoread
 
 " encoding is utf 8
 set encoding=utf-8
@@ -89,8 +94,8 @@ if has("gui_running")
 	set linespace=3
 
 	" When pressing <D-s> in gvim go to normal mode
-	iunmenu File.Save 
-	imenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR> 
+	iunmenu File.Save
+	imenu <silent> File.Save <Esc>:if expand("%") == ""<Bar>browse confirm w<Bar>else<Bar>confirm w<Bar>endif<CR>
 end
 
 " remove the .ext~ files, but not the swapfiles
@@ -121,20 +126,24 @@ set laststatus=2
 " no lines longer than 80 cols
 set textwidth=80
 
-" UndoTree 
+" UndoTree
 nnoremap <F5> :UndotreeToggle<cr>
 if has("persistent_undo")
 	set undodir='~/.undodir/'
 	set undofile
 endif
 
+if has('nvim')
+	" Python in NeoVim
+	let g:python_host_prog = '/usr/local/bin/python'
+endif
 " Syntastic
 let g:syntastic_check_on_open=1
 let g:syntastic_javascript_checkers=['standard']
 
-" Powerline
+" Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme='tomorrow'
+let g:airline_theme='gruvbox'
 
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -148,15 +157,16 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "plugged/vim-snippets/UltiSnips"]
 
 " Emmet
-imap <D-e> <C-Y>, 
+imap <C-e> <C-Y>,
 
 " CTRL-P
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git|bower_components\'
 let g:ctrlp_working_path_mode = 'ra'
-map <D-d> :CtrlPBuffer<CR>
+map <Leader>d :CtrlPBuffer<CR>
 
 " JsBeautify
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+autocmd FileType html.handlebars noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
@@ -171,19 +181,12 @@ xnoremap <silent> <C-h> <gv
 xnoremap <silent> <C-l> >gv
 xnoremap < <gv
 xnoremap > >gv
-vmap <Tab> >gv
-vmap <S-Tab> <gv 
-
-" Inserting empty rows in normal mode
-nmap <S-Enter> O<Esc>
-nmap <CR> o<Esc>
 
 " Switch window
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 
 " Colorscheme and font
-colorscheme seoul256 
-let g:seoul256_background=234
+colorscheme gruvbox
 set background=dark
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h13
