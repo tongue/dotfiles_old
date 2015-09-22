@@ -71,8 +71,11 @@ let mapleader="\<space>"
 set autoread
 
 " encoding is utf 8
-set encoding=utf-8
+" set encoding=utf-8
 set fileencoding=utf-8
+
+" enable mouse
+set mouse=a
 
 " enable matchit plugin which ships with vim and greatly enhances '%'
 runtime macros/matchit.vim
@@ -122,6 +125,16 @@ set laststatus=2
 
 " no lines longer than 80 cols
 set textwidth=300
+
+" Disable strange Vi defaults
+set nocompatible
+
+" Allow for mappings including <Esc>
+set ttimeout
+set timeoutlen=175
+
+" Set default whitespace caracters
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 
 " Save file
 nnoremap <Leader>w :w<CR>
@@ -176,9 +189,8 @@ let g:ctrlp_use_caching = 0
 
 " CTRL-P use .gitignore to exclude files
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+	set grepprg=ag\ --nogroup\ --nocolor
+	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 else
 	let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 	let g:ctrlp_prompt_mappings = {
@@ -206,8 +218,8 @@ xnoremap < <gv
 xnoremap > >gv
 
 " Vim expand region
-map J <Plug>(expand_region_expand)
-map K <Plug>(expand_region_shrink)
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 " Switch window
 nnoremap <tab>   <c-w>w
@@ -232,11 +244,6 @@ let g:netrw_banner=0
 let g:netrw_altv=1
 let g:netrw_preview=1
 
-" remap ESC
-inoremap jk <esc>
-
-set timeoutlen=1000 ttimeoutlen=0
-
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme='gruvbox'
@@ -249,6 +256,9 @@ let g:SuperTabDefaultCompletionType = "context"
 
 " Delimitmate
 let delimitMate_expand_cr = 1
+
+" Insert new line in normal mode
+nmap <cr><cr> o<esc>
 
 " Colorscheme
 colorscheme gruvbox
