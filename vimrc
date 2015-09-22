@@ -1,5 +1,6 @@
 call plug#begin('~/.vim/plugged')
 	" Extend
+	Plug 'Raimondi/delimitMate'
 	Plug 'nathanaelkane/vim-indent-guides'
 	Plug 'bling/vim-airline'
 	Plug 'scrooloose/syntastic'
@@ -20,7 +21,6 @@ call plug#begin('~/.vim/plugged')
 	Plug 'terryma/vim-multiple-cursors'
 	Plug 'terryma/vim-expand-region'
 	Plug 'vim-scripts/gitignore'
-	Plug 'jiangmiao/auto-pairs'
 	Plug 'ntpeters/vim-better-whitespace'
 	Plug 'kshenoy/vim-signature'
 	Plug 'ervandew/supertab'
@@ -158,11 +158,6 @@ let g:syntastic_check_on_open=1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
-if file_readable('.jshintrc')
-	let g:syntastic_javascript_jshint_args = '--config .jshintrc'
-else
-	let g:syntastic_javascript_jshint_args = '--config ~/.jshintrc'
-endif
 
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -251,6 +246,9 @@ let g:startify_list_order = ['sessions', 'files', 'dir', 'bookmarks']
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
+
+" Delimitmate
+let delimitMate_expand_cr = 1
 
 " Colorscheme
 colorscheme gruvbox
