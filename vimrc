@@ -1,4 +1,16 @@
+" set <space> as leader
+let g:mapleader="\<space>"
+
+" make vim try to detect file types and load plugins for them
+filetype on
+filetype plugin on
+filetype indent on
+
 call plug#begin('~/.vim/plugged')
+	" Colorscheme
+	Plug 'morhetz/gruvbox'
+	let g:gruvbox_contrast_dark='soft'
+
 	Plug 'tmhedberg/matchit'
 	Plug 'nathanaelkane/vim-indent-guides'
 	Plug 'tpope/vim-surround'
@@ -16,6 +28,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'kana/vim-textobj-user'
 	Plug 'poetic/vim-textobj-javascript'
 	Plug 'AndrewRadev/splitjoin.vim'
+	Plug 'mtth/scratch.vim'
+	Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 	Plug 'Raimondi/delimitMate'
 	let delimitMate_expand_cr=1
@@ -36,8 +50,6 @@ call plug#begin('~/.vim/plugged')
 	let g:syntastic_warning_symbol='⚠'
 
 	Plug 'kien/ctrlp.vim'
-	nnoremap <Leader>e :CtrlPBuffer<CR>
-	nnoremap <Leader>o :CtrlP<CR>
 	let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git|bower_components\'
 	let g:ctrlp_working_path_mode = 'ra'
 	let g:ctrlp_use_caching=0
@@ -51,6 +63,8 @@ call plug#begin('~/.vim/plugged')
 						\ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
 					\ }
 	endif
+	nnoremap <Leader>e :CtrlPBuffer<CR>
+	nnoremap <Leader>o :CtrlP<CR>
 
 	Plug 'mhinz/vim-signify'
 	let g:signify_vcs_list = ['git', 'svn']
@@ -100,12 +114,6 @@ call plug#begin('~/.vim/plugged')
 	autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 	autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
-	" Colorscheme
-	Plug 'morhetz/gruvbox'
-	set background=dark
-	let g:gruvbox_contrast_dark='soft'
-	colorscheme gruvbox
-
 	" Backend syntax
 	Plug 'vim-scripts/aspnetcs'
 	Plug 'OrangeT/vim-csharp'
@@ -124,8 +132,6 @@ call plug#begin('~/.vim/plugged')
 	let g:used_javascript_libs = 'underscore,backbone,jquery,requirejs,handlebars'
 call plug#end()
 
-" set <space> as leader
-let mapleader="\<space>"
 
 if has("gui_running")
 	" hide unnecessary gui in gVim
@@ -153,17 +159,9 @@ syntax on
 
 " and show line numbers
 set relativenumber
-set number
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
 
 " Highlight current line
 set cursorline
-
-" make vim try to detect file types and load plugins for them
-filetype on
-filetype plugin on
-filetype indent on
 
 " reload files changed outside vim
 set autoread
@@ -260,3 +258,6 @@ nmap <cr><cr> o<esc>
 let g:netrw_liststyle=0
 let g:netrw_banner=0
 let g:netrw_altv=1
+
+set background=dark
+colorscheme gruvbox
