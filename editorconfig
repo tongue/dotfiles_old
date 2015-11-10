@@ -1,0 +1,12 @@
+root = true
+
+[**.js]
+indent_style = tab
+
+[**.css]
+indent_style = tab
+indent_size = 4
+
+[**.html]
+indent_style = tab
+brace_style = expand
