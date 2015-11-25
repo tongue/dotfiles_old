@@ -5,13 +5,6 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:mapleader = "\<Space>"
 
-" Autoinstall vim-plug {{{
-if empty(glob('~/.nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
-endif
-" }}}
 call plug#begin('~/.nvim/plugged') " Plugins initialization start {{{
 " }}}
 
@@ -20,26 +13,6 @@ call plug#begin('~/.nvim/plugged') " Plugins initialization start {{{
 Plug 'morhetz/gruvbox'
 " {{{
 	let g:gruvbox_contrast_dark='soft'
-" }}}
-Plug 'bling/vim-airline'
-" {{{
-	let g:airline_theme = 'gruvbox'
-  let g:airline_powerline_fonts=1
-
-  let g:airline_section_z = '%2p%% %2l/%L:%2v'
-  let g:airline#extensions#hunks#enabled=0
-  let g:airline#extensions#default#layout = [
-    \ [ 'a', 'b', 'c' ],
-    \ [ 'x', 'z', 'warning' ]
-  \ ]
-
-" }}}
-Plug 'nathanaelkane/vim-indent-guides'
-" {{{
-  let g:indent_guides_default_mapping = 0
-  let g:indent_guides_enable_on_vim_startup = 0
-  let g:indent_guides_start_level = 2
-  let g:indent_guides_exclude_filetypes = ['help', 'startify', 'man', 'rogue']
 " }}}
 Plug 'kshenoy/vim-signature'
 Plug 'mhinz/vim-startify'
@@ -53,12 +26,6 @@ Plug 'mhinz/vim-startify'
   nnoremap <F12> :Startify<CR>
   autocmd! User Startified setlocal colorcolumn=0
 " }}}
-Plug 't9md/vim-choosewin'
-" {{{
-  nmap <leader>' <Plug>(choosewin)
-  let g:choosewin_blink_on_land = 0
-  let g:choosewin_tabline_replace = 0
-" }}}
 
 " Completion
 " ====================================================================
@@ -70,8 +37,8 @@ Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neosnippet'
 " {{{
-  let g:neosnippet#snippets_directory = '~/.nvim/snippets'
-  let g:neosnippet#data_directory = $HOME . '/.nvim/cache/neosnippet'
+  let g:neosnippet#snippets_directory = '~/dotfiles/neovim/snippets'
+  let g:neosnippet#data_directory = $HOME . '/.config/nvim/cache/neosnippet'
   let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
 
   nnoremap <leader>se :NeoSnippetEdit -split<CR>
@@ -102,6 +69,7 @@ Plug 'Shougo/neosnippet'
 " File Navigation
 " ====================================================================
 Plug 'kien/ctrlp.vim'
+" {{{
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git|bower_components\'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_use_caching=0
@@ -117,23 +85,11 @@ else
 endif
 nnoremap <Leader>e :CtrlPBuffer<CR>
 nnoremap <Leader>o :CtrlP<CR>
-
+" }}}
 Plug 'tpope/vim-vinegar'
-Plug 'ryanoasis/vim-devicons'
 
 " Text Navigation
 " ====================================================================
-Plug 'Lokaltog/vim-easymotion'
-" {{{
-  let g:EasyMotion_do_mapping = 0
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_off_screen_search = 0
-  nmap ; <Plug>(easymotion-s2)
-" }}}
-Plug 'rhysd/clever-f.vim'
-" {{{
-  let g:clever_f_across_no_line = 1
-" }}}
 
 " Text Manipulation
 " ====================================================================
@@ -146,13 +102,6 @@ Plug 'Raimondi/delimitMate'
   let delimitMate_expand_space = 1 " {|} => { | }
 " }}}
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'AndrewRadev/sideways.vim'
-" {{{
-  nnoremap <Leader>< :SidewaysLeft<CR>
-  nnoremap <Leader>> :SidewaysRight<CR>
-" }}}
-Plug 'maksimr/vim-jsbeautify', { 'for': ['javascript', 'json'] }
-map <Leader>b :call JsBeautify()<cr>
 
 " Text Objects
 " ====================================================================
@@ -166,8 +115,8 @@ Plug 'benekastah/neomake'
 " {{{
   autocmd! BufWritePost * Neomake
   let g:neomake_airline = 1
-  let g:neomake_error_sign = { 'text': '✘', 'texthl': 'ErrorSign' }
-  let g:neomake_warning_sign = { 'text': '⚠', 'texthl': 'WarningSign' }
+  let g:neomake_error_sign = { 'text': '❌' }
+  let g:neomake_warning_sign = { 'text': '⚠️' }
 
 	let g:neomake_javascript_jshint_maker = {
     \ 'args': ['--verbose'],
@@ -178,18 +127,15 @@ Plug 'benekastah/neomake'
 	autocmd! BufWritePost * Neomake
   map <F4> :lopen<CR>
 " }}}
-Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim', { 'for': ['html', 'css', 'scss', 'handlebars', 'hbs'] }
 " {{{
   let g:user_emmet_expandabbr_key = '<c-e>'
 " }}}
-Plug 'Valloric/MatchTagAlways'
 Plug 'tpope/vim-ragtag'
 " {{{
   let g:ragtag_global_maps = 1
 " }}}
 Plug 'ap/vim-css-color'
-Plug 'vim-scripts/aspnetcs'
-Plug 'OrangeT/vim-csharp'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'briancollins/vim-jst'
 Plug 'groenewege/vim-less'
@@ -198,26 +144,20 @@ Plug 'sheerun/vim-json'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
+" {{{
 let g:used_javascript_libs = 'underscore,backbone,jquery,requirejs,handlebars'
+" }}}
 
 " VCS
 " ====================================================================
 Plug 'mhinz/vim-signify'
+" {{{
 let g:signify_vcs_list = ['git', 'svn']
+" "}}}
+Plug 'tpope/vim-fugitive'
 
 " Utility
 " ====================================================================
-Plug 'tyru/open-browser.vim'
-" {{{
-  let g:netrw_nogx = 1
-  vmap gx <Plug>(openbrowser-smart-search)
-  nmap gx <Plug>(openbrowser-search)
-" }}}
-Plug 'Shougo/junkfile.vim'
-" {{{
-  nnoremap <leader>jo :JunkfileOpen
-  let g:junkfile#directory = $HOME . '/.nvim/cache/junkfile'
-" }}}
 Plug 'junegunn/vim-peekaboo'
 " {{{
   let g:peekaboo_delay = 400
@@ -226,7 +166,7 @@ Plug 'mbbill/undotree'
 " {{{
   set undofile
   " Auto create undodir if not exists
-  let undodir = expand($HOME . '/.nvim/cache/undodir')
+  let undodir = expand($HOME . '/.config/nvim/cache/undodir')
   if !isdirectory(undodir)
     call mkdir(undodir, 'p')
   endif
@@ -235,6 +175,14 @@ Plug 'mbbill/undotree'
   nnoremap <F11> :UndotreeToggle<CR>
 " }}}
 Plug 'terryma/vim-multiple-cursors'
+Plug 'dyng/ctrlsf.vim'
+" {{{
+  let g:ctrlsf_default_root = 'project'
+  nmap <Leader>ff <Plug>CtrlSFPrompt
+  vmap <Leader>ff <Plug>CtrlSFPromptExec
+  nnoremap <Leader>ft :CtrlSFToggle<CR>
+  inoremap <Leader>ft <Esc>:CtrlSFToggle<CR>
+" }}}
 
 call plug#end() " Plugins initialization finished {{{
 " }}}
@@ -243,7 +191,6 @@ call plug#end() " Plugins initialization finished {{{
 " ====================================================================
 syntax on " syntax highlighting
 
-set clipboard=unnamed,unnamedplus
 set number         " show line numbers
 set relativenumber " use relative lines numbering by default
 set noswapfile     " disable creating of *.swp files
@@ -264,13 +211,8 @@ set viminfo=!,h,f1,'100
 set foldmethod=manual       " use manual folding
 set diffopt=filler,vertical " default behavior for diff
 
-" ignore pattern for wildmenu
-set wildignore+=*.a,*.o,*.pyc,*~,*.swp,*.tmp
-set wildmode=list:longest,full
-
 set listchars=tab:•·,trail:·,extends:❯,precedes:❮,nbsp:×
 
-set laststatus=2 " always show status line
 set showcmd      " always show current command
 
 set nowrap        " disable wrap for long lines
@@ -302,24 +244,12 @@ highlight! ErrorSign guifg=black guibg=#E01600 ctermfg=16 ctermbg=160
 highlight! WarningSign guifg=black guibg=#FFED26 ctermfg=16 ctermbg=11
 " }}}
 " Key Mappings " {{{
-nnoremap <leader>vi :tabedit $MYVIMRC<CR>
 
 " Quick way to save file
 nnoremap <leader>w :w<CR>
 
 " Disable search highlighting
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
-
-" Keep search results at the center of screen
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-nmap g* g*zz
-nmap g# g#zz
-
-" Select all text
-noremap vA ggVG
 
 " Go to visual line mode
 nmap <Leader><Leader> V
@@ -345,6 +275,10 @@ xnoremap <silent> <c-l> >gv
 " Insert new line in normal mode
 nmap <cr><cr> o<esc>
 
+map ö [
+map ä ]
+map Ö {
+map Ä }
 " }}}
 " Cursor configuration {{{
 " ====================================================================
@@ -355,4 +289,71 @@ nmap <cr><cr> o<esc>
   let &t_SR = "\<Esc>[3 q"
   let &t_EI = "\<Esc>[2 q"
 " }}}
+" Statusline
+" ====================================================================
+"{{
+" Dynamically getting the fg/bg colors from the current colorscheme, returns hex which is enough for me to use in Neovim
+" Needs to figure out how to return cterm values too
+let fgcolor=synIDattr(synIDtrans(hlID("Normal")), "fg", "gui")
+let bgcolor=synIDattr(synIDtrans(hlID("Normal")), "bg", "gui")
+
+" Statusline
+" https://github.com/Greduan/dotfiles/blob/76e16dd8a04501db29989824af512c453550591d/vim/after/plugin/statusline.vim
+let g:currentmode={
+      \ 'n'  : 'N ',
+      \ 'no' : 'N·Operator Pending ',
+      \ 'v'  : 'V ',
+      \ 'V'  : 'V·Line ',
+      \ '' : 'V·Block ',
+      \ 's'  : 'Select ',
+      \ 'S'  : 'S·Line ',
+      \ '' : 'S·Block ',
+      \ 'i'  : 'I ',
+      \ 'R'  : 'R ',
+      \ 'Rv' : 'V·Replace ',
+      \ 'c'  : 'Command ',
+      \ 'cv' : 'Vim Ex ',
+      \ 'ce' : 'Ex ',
+      \ 'r'  : 'Prompt ',
+      \ 'rm' : 'More ',
+      \ 'r?' : 'Confirm ',
+      \ '!'  : 'Shell ',
+      \ 't'  : 'Terminal '
+      \}
+
+" Automatically change the statusline color depending on mode
+function! ChangeStatuslineColor()
+  if (mode() =~# '\v(n|no)')
+    exe 'hi! StatusLine guifg=#928374'
+  elseif (mode() =~# '\v(v|V)' || g:currentmode[mode()] ==# 'V·Block' || get(g:currentmode, mode(), '') ==# 't')
+    exe 'hi! StatusLine guifg=#d65d0e'
+  elseif (mode() ==# 'i')
+    exe 'hi! StatusLine guifg=#b8bb26'
+  else
+    exe 'hi! StatusLine guifg=#fb4934'
+  endif
+
+  return ''
+endfunction
+
+function! ReadOnly()
+  if &readonly || !&modifiable
+    return '🔒'
+	else
+    return ''
+endfunction
+
+
+" http://stackoverflow.com/a/10416234/213124
+set laststatus=2
+set statusline=
+set statusline+=%{ChangeStatuslineColor()}               " Changing the statusline color
+set statusline+=%0*\ %{toupper(g:currentmode[mode()])}   " Current mode
+set statusline+=%{ReadOnly()}\ \ %F\ %m\ %w\        " File+path
+set statusline+=\ %=
+set statusline+=%y                                 " FileType
+set statusline+=%0*\ 🔃%3p%%\                " Rownumber/total (%)
+set statusline+=\%{neomake#statusline#LoclistStatus('\ 😡\ \ ')}
+set statusline+=%0*\ 
+"}}}
 " vim: set sw=2 ts=2 et foldlevel=0 foldmethod=marker:

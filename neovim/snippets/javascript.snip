@@ -1,0 +1,57 @@
+snippet fn
+options head
+  ${1:#:method_name}: function $1(${2:#:attribute}) {
+    ${0:TARGET}
+  }${3:#:,}
+
+snippet console-log
+alias cl
+options head
+  console.log(${0:TARGET});
+
+snippet console-trace
+alias ct
+options head
+  console.trace();
+
+snippet console-error
+alias ce
+options head
+  console.error(${0:TARGET});
+
+snippet console-warn
+alias cw
+options head
+  console.warn(${0:TARGET});
+
+snippet console-info
+alias ci
+options head
+  console.info(${0:TARGET});
+
+snippet import-jquery
+alias im$
+options head
+  import $ from 'jquery';
+
+snippet import-underscore
+alias im_
+options head
+  import _ from 'underscore';
+
+snippet import
+alias im
+options head
+  import ${1:#:name} from '${2:#:file}';
+
+snippet use-strict
+alias us
+options head
+  'use strict';
+
+snippet function
+alias fun
+options head
+  function ${1:#:name}() {
+    ${0:TARGET}
+  }
