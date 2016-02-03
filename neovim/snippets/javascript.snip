@@ -55,3 +55,35 @@ options head
   function ${1:#:name}() {
     ${0:TARGET}
   }
+
+snippet export default function
+alias edf
+options head
+  export default function ${1:#:name}() {
+    ${0:TARGET}
+  }
+
+snippet export function
+alias ef
+options head
+  export function ${1:#:name}() {
+    ${0:TARGET}
+  }
+
+snippet export define
+alias def
+options head
+  define([
+    ${1:#:requirements}
+  ], function(${2:#:arguments}) {
+    ${0:TARGET}
+  });
+
+snippet export require
+alias req
+options head
+  require([
+    ${1:#:requirements}
+  ], function(${2:#:arguments}) {
+    ${0:TARGET}
+  });
