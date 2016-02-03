@@ -2,10 +2,14 @@ filetype plugin indent on
 
 let g:python_host_prog = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
+" Faster startup time on neovim
+let g:python_host_skip_check = 1
+let g:python3_host_skip_check = 1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
 let g:mapleader = "\<Space>"
 
-call plug#begin('~/.nvim/plugged') " Plugins initialization start {{{
+call plug#begin('~/.config/nvim/plugged') " Plugins initialization start {{{
 " }}}
 
 " Appearance
@@ -13,18 +17,7 @@ call plug#begin('~/.nvim/plugged') " Plugins initialization start {{{
 Plug 'morhetz/gruvbox'
 " {{{
 	let g:gruvbox_contrast_dark='soft'
-" }}}
-Plug 'kshenoy/vim-signature'
-Plug 'mhinz/vim-startify'
-" {{{
-  let g:startify_session_dir = '~/.nvim/session'
-  let g:startify_list_order = ['sessions']
-  let g:startify_session_persistence = 1
-  let g:startify_session_delete_buffers = 1
-  let g:startify_change_to_dir = 1
-  let g:startify_change_to_vcs_root = 1
-  nnoremap <F12> :Startify<CR>
-  autocmd! User Startified setlocal colorcolumn=0
+  let g:gruvbox_bold=1
 " }}}
 
 " Completion
@@ -32,6 +25,14 @@ Plug 'mhinz/vim-startify'
 Plug 'Shougo/deoplete.nvim'
 " {{{
   let g:deoplete#enable_at_startup = 1
+  let g:deoplete#auto_completion_start_length=1
+
+  let g:deoplete#sources={}
+  let g:deoplete#sources._    = ['buffer', 'file', 'ultisnips']
+  let g:deoplete#sources.ruby = ['buffer', 'member', 'file', 'ultisnips']
+  let g:deoplete#sources.vim  = ['buffer', 'member', 'file', 'ultisnips']
+  let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni', 'ultisnips']
+  let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni', 'ultisnips']
 " }}}
 Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neco-syntax'
@@ -85,11 +86,48 @@ else
 endif
 nnoremap <Leader>e :CtrlPBuffer<CR>
 nnoremap <Leader>o :CtrlP<CR>
+
+" Argument: len
+"           a:1
+fu! CtrlP_main_status(...)
+  let regex = a:3 ? '%2*regex %*' : ''
+  let prv = '%#StatusLineNC# '.a:4.' %*'
+  let item = ' ' . (a:5 == 'mru files' ? 'mru' : a:5) . ' '
+  let nxt = '%#StatusLineNC# '.a:6.' %*'
+  let byfname = '%2* '.a:2.' %*'
+  let dir = '%#SLBranch# ← %*%#StatusLineNC#' . fnamemodify(getcwd(), ':~') . '%* '
+
+  " only outputs current mode
+  retu ' %#SLArrows#»%*' . item . '%#SLArrows#«%* ' . '%=%<' . dir
+
+  " outputs previous/next modes as well
+  " retu prv . '%4*»%*' . item . '%4*«%*' . nxt . '%=%<' . dir
+endf
+
+" StatusLine: 
+" Arguments: focus, byfname, s:regexp, prv, item, nxt, marked
+"            a:1    a:2      a:3       a:4  a:5   a:6  a:7
+fu! CtrlP_progress_status(...)
+  let len = '%#Function# '.a:1.' %*'
+  let dir = ' %=%<%#LineNr# '.getcwd().' %*'
+  retu len.dir
+endf
+
+let g:ctrlp_status_func = {
+  \ 'main': 'CtrlP_main_status',
+  \ 'prog': 'CtrlP_progress_status'
+  \}
 " }}}
 Plug 'tpope/vim-vinegar'
 
 " Text Navigation
 " ====================================================================
+Plug 'unblevable/quick-scope'
+" {{{
+" let g:qs_first_occurrence_highlight_color = '#afff5f' 
+" let g:qs_second_occurrence_highlight_color = '#5fffff'
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+" }}}
 
 " Text Manipulation
 " ====================================================================
@@ -113,40 +151,27 @@ Plug 'poetic/vim-textobj-javascript'
 " ====================================================================
 Plug 'benekastah/neomake'
 " {{{
-  autocmd! BufWritePost * Neomake
   let g:neomake_airline = 1
   let g:neomake_error_sign = { 'text': '❌' }
   let g:neomake_warning_sign = { 'text': '⚠️' }
 
-	let g:neomake_javascript_jshint_maker = {
-    \ 'args': ['--verbose'],
-    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-    \ }
-	let g:neomake_javascript_enabled_makers = ['jshint']
+	let g:neomake_javascript_enabled_makers = ['eslint']
 
-	autocmd! BufWritePost * Neomake
+	" npm install -g eslint
+	autocmd BufWritePost *.js Neomake eslint
   map <F4> :lopen<CR>
 " }}}
-Plug 'mattn/emmet-vim', { 'for': ['html', 'css', 'scss', 'handlebars', 'hbs'] }
+Plug 'mattn/emmet-vim'
 " {{{
   let g:user_emmet_expandabbr_key = '<c-e>'
-" }}}
-Plug 'tpope/vim-ragtag'
-" {{{
-  let g:ragtag_global_maps = 1
+  let g:user_emmet_install_global = 1
 " }}}
 Plug 'ap/vim-css-color'
 Plug 'cakebaker/scss-syntax.vim'
-Plug 'briancollins/vim-jst'
 Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'sheerun/vim-json'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'othree/yajs.vim'
-Plug 'othree/javascript-libraries-syntax.vim'
-" {{{
-let g:used_javascript_libs = 'underscore,backbone,jquery,requirejs,handlebars'
-" }}}
 
 " VCS
 " ====================================================================
@@ -158,6 +183,10 @@ Plug 'tpope/vim-fugitive'
 
 " Utility
 " ====================================================================
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+" {{{
+nnoremap <silent> <Leader>q :Sayonara<CR>
+" }}}
 Plug 'junegunn/vim-peekaboo'
 " {{{
   let g:peekaboo_delay = 400
@@ -183,6 +212,8 @@ Plug 'dyng/ctrlsf.vim'
   nnoremap <Leader>ft :CtrlSFToggle<CR>
   inoremap <Leader>ft <Esc>:CtrlSFToggle<CR>
 " }}}
+Plug 'tpope/vim-repeat'
+Plug 'kshenoy/vim-signature'
 
 call plug#end() " Plugins initialization finished {{{
 " }}}
@@ -192,12 +223,13 @@ call plug#end() " Plugins initialization finished {{{
 syntax on " syntax highlighting
 
 set number         " show line numbers
-set relativenumber " use relative lines numbering by default
+set norelativenumber " use relative lines numbering by default
 set noswapfile     " disable creating of *.swp files
 set hidden         " hide buffers instead of closing
 set lazyredraw     " speed up on large files
 set mouse=         " disable mouse
 set visualbell
+set autoread			" reload files outside vim
 
 set scrolloff=8
 set undolevels=5000     " set maximum undo levels
@@ -238,10 +270,6 @@ set background=dark
 colorscheme gruvbox
 
 set cursorline     " highlight current line
-
-" NeoMake
-highlight! ErrorSign guifg=black guibg=#E01600 ctermfg=16 ctermbg=160
-highlight! WarningSign guifg=black guibg=#FFED26 ctermfg=16 ctermbg=11
 " }}}
 " Key Mappings " {{{
 
@@ -279,6 +307,8 @@ map ö [
 map ä ]
 map Ö {
 map Ä }
+
+nnoremap gp `[v`]
 " }}}
 " Cursor configuration {{{
 " ====================================================================
@@ -289,9 +319,8 @@ map Ä }
   let &t_SR = "\<Esc>[3 q"
   let &t_EI = "\<Esc>[2 q"
 " }}}
-" Statusline
+" Statusline {{{
 " ====================================================================
-"{{
 " Dynamically getting the fg/bg colors from the current colorscheme, returns hex which is enough for me to use in Neovim
 " Needs to figure out how to return cterm values too
 let fgcolor=synIDattr(synIDtrans(hlID("Normal")), "fg", "gui")
@@ -300,16 +329,16 @@ let bgcolor=synIDattr(synIDtrans(hlID("Normal")), "bg", "gui")
 " Statusline
 " https://github.com/Greduan/dotfiles/blob/76e16dd8a04501db29989824af512c453550591d/vim/after/plugin/statusline.vim
 let g:currentmode={
-      \ 'n'  : 'N ',
+      \ 'n'  : 'NORMAL ',
       \ 'no' : 'N·Operator Pending ',
-      \ 'v'  : 'V ',
+      \ 'v'  : 'VISUAL ',
       \ 'V'  : 'V·Line ',
       \ '' : 'V·Block ',
       \ 's'  : 'Select ',
       \ 'S'  : 'S·Line ',
       \ '' : 'S·Block ',
-      \ 'i'  : 'I ',
-      \ 'R'  : 'R ',
+      \ 'i'  : 'INSERT ',
+      \ 'R'  : 'REPLACE ',
       \ 'Rv' : 'V·Replace ',
       \ 'c'  : 'Command ',
       \ 'cv' : 'Vim Ex ',
@@ -321,7 +350,7 @@ let g:currentmode={
       \ 't'  : 'Terminal '
       \}
 
-" Automatically change the statusline color depending on mode
+" " Automatically change the statusline color depending on mode
 function! ChangeStatuslineColor()
   if (mode() =~# '\v(n|no)')
     exe 'hi! StatusLine guifg=#928374'
@@ -344,16 +373,33 @@ function! ReadOnly()
 endfunction
 
 
-" http://stackoverflow.com/a/10416234/213124
+" " http://stackoverflow.com/a/10416234/213124
 set laststatus=2
 set statusline=
 set statusline+=%{ChangeStatuslineColor()}               " Changing the statusline color
 set statusline+=%0*\ %{toupper(g:currentmode[mode()])}   " Current mode
 set statusline+=%{ReadOnly()}\ \ %F\ %m\ %w\        " File+path
 set statusline+=\ %=
-set statusline+=%y                                 " FileType
-set statusline+=%0*\ 🔃%3p%%\                " Rownumber/total (%)
+" set statusline+=%y                                 " FileType
+" set statusline+=%0*\ 🔃\ %3p%%\                " Rownumber/total (%)
 set statusline+=\%{neomake#statusline#LoclistStatus('\ 😡\ \ ')}
 set statusline+=%0*\ 
 "}}}
+" CTAGS {{{
+" ====================================================================
+set tags+=.tags
+
+function! GenerateCtags() abort
+
+  silent execute '!ctags  --extra=+f -Rf .tags'
+        \ '--exclude=.git --exclude=node_modules --exclude=bower_components --exclude=.meteor --languages=-sql'
+  echom 'Tags generated into .tags file!'
+endfunction
+command! GenerateCT :call GenerateCtags()
+" }}}
+" Autocommands {{{
+" ====================================================================
+" Check if file has been changed externaly
+autocmd CursorHold * checktime
+" }}}
 " vim: set sw=2 ts=2 et foldlevel=0 foldmethod=marker:
