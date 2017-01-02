@@ -22,12 +22,23 @@ let g:gruvbox_bold=1
 Plug 'Shougo/deoplete.nvim'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#max_list = 12
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#auto_complete_start_length = 1
 
 let g:deoplete#sources={}
 let g:deoplete#sources._    = ['buffer', 'file', 'omni']
 let g:deoplete#sources.vim  = ['buffer', 'member', 'file']
 let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni']
 let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni']
+let g:deoplete#sources.javascript = ['buffer', 'member', 'file', 'omni']
+
+let g:deoplete#omni#functions = {}
+let g:deoplete#omni#functions.javascript = [
+		  \ 'tern#Complete',
+		  \ 'jspc#omni'
+		  \]
+
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
 Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neco-syntax'
@@ -64,8 +75,7 @@ xmap <C-l> <Plug>(neosnippet_expand_target)
 " ====================================================================
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-let g:fzf_layout = { 'window': 'enew', 'down': '~40%' }
-let g:fzf_buffers_jump = 1
+let g:fzf_layout = { 'window': 'enew' }
 nnoremap <leader>o :GFiles<CR>
 nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>i :Files<CR>
@@ -91,6 +101,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 Plug 'tpope/vim-unimpaired'
 Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
   let delimitMate_expand_cr = 2
@@ -112,6 +123,7 @@ Plug 'benekastah/neomake'
 
 Plug 'mattn/emmet-vim'
 let g:user_emmet_expandabbr_key = '<c-e>'
+let g:user_emmet_mode='i'
 
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'groenewege/vim-less'
@@ -152,9 +164,11 @@ inoremap <Leader>ft <Esc>:CtrlSFToggle<CR>
 Plug 'tpope/vim-repeat'
 Plug 'lilydjwg/colorizer'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'grassdog/tagman.vim'
 
 set statusline=%<%f\ %h%m%r
 set statusline+=%=
+set statusline+=%y
 set statusline+=%{neomake#statusline#LoclistStatus()}
 set statusline+=\ 
 set statusline+=%{fugitive#statusline()}

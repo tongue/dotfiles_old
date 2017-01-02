@@ -4,13 +4,18 @@ ZSH=$HOME/.oh-my-zsh
 export EDITOR="nvim"
 export TERM='xterm-256color'
 
-ZSH_THEME="terminalparty"
+# ZSH_THEME="terminalparty"
+ZSH_THEME="avit"
 
 # Aliases
 alias zshconfig="nvim ~/.zshrc"
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias status="git status -s"
 alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
+alias linesofcode="find . -name '*.*' | xargs wc -l"
+
+# Dscript
+alias ds="./dscript.sh"
 
 # SVN
 alias svn=~/dotfiles/svn/svn-color.py
