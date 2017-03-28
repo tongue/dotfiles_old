@@ -6,6 +6,7 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python_host_skip_check = 1
 let g:python3_host_skip_check = 1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $LANG = 'en'
 
 let g:mapleader = "\<Space>"
 
@@ -13,32 +14,21 @@ call plug#begin('~/.config/nvim/plugged') " Plugins initialization start
 
 " Appearance
 " ====================================================================
-Plug 'morhetz/gruvbox'
-let g:gruvbox_contrast_dark='soft'
-let g:gruvbox_bold=1
+Plug 'tongue/vim-colors-paramount'
 
 " Completion
 " ====================================================================
-Plug 'Shougo/deoplete.nvim'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#max_list = 12
-let g:deoplete#enable_ignore_case = 1
-let g:deoplete#auto_complete_start_length = 1
+Plug 'roxma/nvim-completion-manager', {'do': 'npm install'}
+" (optional) javascript completion
+Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+" (optional) language server protocol framework
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 
-let g:deoplete#sources={}
-let g:deoplete#sources._    = ['buffer', 'file', 'omni']
-let g:deoplete#sources.vim  = ['buffer', 'member', 'file']
-let g:deoplete#sources.css  = ['buffer', 'member', 'file', 'omni']
-let g:deoplete#sources.scss = ['buffer', 'member', 'file', 'omni']
-let g:deoplete#sources.javascript = ['buffer', 'member', 'file', 'omni']
-
-let g:deoplete#omni#functions = {}
-let g:deoplete#omni#functions.javascript = [
-		  \ 'tern#Complete',
-		  \ 'jspc#omni'
-		  \]
-
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" don't give |ins-completion-menu| messages.  For example,
+" '-- XXX completion (YYY)', 'match 1 of 2', 'The only match',
+set shortmess+=c
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 Plug 'Shougo/neoinclude.vim'
 Plug 'Shougo/neco-syntax'
@@ -89,7 +79,6 @@ let NERDTreeWinSize=40
 let NERDTreeShowHidden=1
 silent! map <F1> :NERDTreeToggle<CR>
 silent! map <F2> :NERDTreeFind<CR>
-Plug 'ryanoasis/vim-devicons'
 
 " Text Navigation
 " ====================================================================
@@ -111,29 +100,30 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 " Languages
 " ====================================================================
-Plug 'benekastah/neomake'
-  let g:neomake_airline = 1
-  let g:neomake_error_sign = { 'text': '❌' }
-  let g:neomake_warning_sign = { 'text': '⚠️' }
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let g:neomake_css_enabled_makers = ['stylelint']
-  autocmd BufWritePost *.js Neomake eslint
-  autocmd BufWritePost *.css Neomake stylelint
-  map <F4> :lopen<CR>
+Plug 'w0rp/ale'
+let g:ale_linters = {
+\   'javascript': ['eslint', 'flow'],
+\}
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+let g:ale_statusline_format = ['❌: %d', '⚠️ : %d', '💚']
+let g:ale_lint_on_save = 0
+let g:ale_lint_on_text_changed = 1
+
+nmap <silent> <Up> <Plug>(ale_previous_wrap)
+nmap <silent> <Down> <Plug>(ale_next_wrap)
 
 Plug 'mattn/emmet-vim'
 let g:user_emmet_expandabbr_key = '<c-e>'
 let g:user_emmet_mode='i'
 
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'sheerun/vim-json'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'maxmellon/vim-jsx-pretty'
 let g:jsx_ext_required = 0
-au BufRead,BufNewFile *.css set filetype=scss.css
 
 " VCS
 " ====================================================================
@@ -153,7 +143,7 @@ let &undodir = undodir
 
 nnoremap <F11> :UndotreeToggle<CR>
 
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'dyng/ctrlsf.vim'
 let g:ctrlsf_default_root = 'project'
 nmap <Leader>ff <Plug>CtrlSFPrompt
@@ -168,9 +158,10 @@ Plug 'grassdog/tagman.vim'
 
 set statusline=%<%f\ %h%m%r
 set statusline+=%=
-set statusline+=%y
-set statusline+=%{neomake#statusline#LoclistStatus()}
 set statusline+=\ 
+set statusline+=%{ALEGetStatusLine()}
+set statusline+=\ 
+set statusline+=%y
 set statusline+=%{fugitive#statusline()}
 
 call plug#end()
@@ -183,7 +174,7 @@ set relativenumber " use relative lines numbering by default
 set number         " show line numbers
 set noswapfile     " disable creating of *.swp files
 set hidden         " hide buffers instead of closing
-set lazyredraw     " speed up on large files
+set nolazyredraw     " speed up on large files
 set mouse=         " disable mouse
 set visualbell
 set autoread			" reload files outside vim
@@ -224,7 +215,7 @@ set gdefault   " when on, the :substitute flag 'g' is default on
 " Colors and highlightings {{{
 " ====================================================================
 set background=dark
-colorscheme gruvbox
+colorscheme paramount
 
 set cursorline     " highlight current line
 " Key Mappings
@@ -238,31 +229,14 @@ nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 " Go to visual line mode
 nmap <Leader><Leader> V
 
-" Copy and paste to system clipboard
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-
 " Moving lines
 nnoremap <silent> <c-k> :move-2<cr>
 nnoremap <silent> <c-j> :move+<cr>
-nnoremap <silent> <c-h> <<
-nnoremap <silent> <c-l> >>
 xnoremap <silent> <c-k> :move-2<cr>gv
 xnoremap <silent> <c-j> :move'>+<cr>gv
-xnoremap <silent> <c-h> <gv
-xnoremap <silent> <c-l> >gv
 
 " Insert new line in normal mode
 nmap <cr><cr> o<esc>
-
-map ö [
-map ä ]
-map Ö {
-map Ä }
 
 nnoremap gp `[v`]
 
@@ -275,24 +249,11 @@ nnoremap gp `[v`]
   let &t_SR = "\<Esc>[3 q"
   let &t_EI = "\<Esc>[2 q"
 
-" CTAGS
-" ====================================================================
-set tags+=.tags
-
-function! GenerateCtags() abort
-
-  silent execute '!ctags  --extra=+f -Rf .tags'
-        \ '--exclude=.git --exclude=node_modules --exclude=bower_components --exclude=.meteor --languages=-sql'
-  echom 'Tags generated into .tags file!'
-endfunction
-command! GenerateCT :call GenerateCtags()
-
 "
 "Autocommands
 " ====================================================================
 " Check if file has been changed externaly
 autocmd CursorHold * checktime
-autocmd FileType html,handelbars EmmetInstall
 
 " Omnifuncs
 " ====================================================================

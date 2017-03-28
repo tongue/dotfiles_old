@@ -24,11 +24,25 @@ options head
 
   export default $1;
 
+snippet uic
+options head
+  export const ${1:#:Component} = withClassnames(styles)(
+    ({ classnames }) => (
+      ${0:TARGET}
+    )
+  );
+
 snippet fn
 options head
   ${1:#:method_name}: function $1(${2:#:attribute}) {
     ${0:TARGET}
   }${3:#:,}
+
+snippet propt
+options head
+  ${1:#:component_name}.propTypes = {
+    ${0:TARGET}
+  };
 
 snippet console-log
 alias cl
