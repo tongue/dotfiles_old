@@ -1,0 +1,129 @@
+snippet rc
+options head
+  import React, { PropTypes } from 'react';
+
+  function ${1:#:Component}() {
+    return (
+      ${0}
+    );
+  }
+
+  export default $1;
+
+snippet rcc
+options head
+  import React from 'react';
+
+  class ${1:#:Component} extends React.Component {
+    render() {
+      return (
+        ${0}
+      );
+    }
+  }
+
+  export default $1;
+
+snippet uic
+options head
+  export const ${1:#:Component} = withClassnames(styles)(
+    ({ classnames }) => (
+      ${0:TARGET}
+    )
+  );
+
+snippet fn
+options head
+  ${1:#:method_name}: function $1(${2:#:attribute}) {
+    ${0:TARGET}
+  }${3:#:,}
+
+snippet propt
+options head
+  ${1:#:component_name}.propTypes = {
+    ${0:TARGET}
+  };
+
+snippet console-log
+alias cl
+options head
+  console.log(${0:TARGET});
+
+snippet console-trace
+alias ct
+options head
+  console.trace();
+
+snippet console-error
+alias ce
+options head
+  console.error(${0:TARGET});
+
+snippet console-warn
+alias cw
+options head
+  console.warn(${0:TARGET});
+
+snippet console-info
+alias ci
+options head
+  console.info(${0:TARGET});
+
+snippet import-jquery
+alias im$
+options head
+  import $ from 'jquery';
+
+snippet import-underscore
+alias im_
+options head
+  import _ from 'underscore';
+
+snippet import
+alias im
+options head
+  import ${1:#:name} from '${0:#:file}';
+
+snippet use-strict
+alias us
+options head
+  'use strict';
+
+snippet function
+alias fun
+options head
+  function ${1:#:name}() {
+    ${0:TARGET}
+  }
+
+snippet export default function
+alias edf
+options head
+  export default function ${1:#:name}() {
+    ${0:TARGET}
+  }
+
+snippet export function
+alias ef
+options head
+  export function ${1:#:name}() {
+    ${0:TARGET}
+  }
+
+snippet export define
+alias def
+options head
+  define([
+    ${1:#:requirements}
+  ], function(${2:#:arguments}) {
+    ${0:TARGET}
+  });
+
+snippet export require
+alias req
+options head
+  require([
+    ${1:#:requirements}
+  ], function(${2:#:arguments}) {
+    ${0:TARGET}
+  });

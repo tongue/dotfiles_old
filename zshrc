@@ -103,5 +103,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Path
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/npm/bin
+export LC_ALL="en_US.UTF-8"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

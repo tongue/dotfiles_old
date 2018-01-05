@@ -1,0 +1,7 @@
+layout tall
+
+cd ~/projects/isotop/isotop-web
+focus
+launch nvim .
+launch zsh
+launch zsh
