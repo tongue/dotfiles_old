@@ -10,6 +10,7 @@ let g:mapleader = "\<Space>"
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tongue/vim-colors-paramount'
+Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -33,23 +34,22 @@ Plug 'leafgarland/typescript-vim'
 Plug 'mbbill/undotree'
 Plug 'dyng/ctrlsf.vim'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'mattn/emmet-vim'
 Plug 'prettier/vim-prettier', {
 			\ 'do': 'yarn install',
 			\ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
 Plug 'sgur/vim-editorconfig'
 Plug 'pangloss/vim-javascript'
 Plug 'chemzqm/vim-jsx-improve'
+Plug 'roxma/nvim-completion-manager'
+Plug 'calebeby/ncm-css'
+Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+Plug 'roxma/ncm-flow'
+Plug 'mattn/emmet-vim'
 call plug#end()
 
 " AUTOCMD ==========================================================
-autocmd FileType typescript setlocal completeopt-=menu
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,javascript,typescript EmmetInstall
-
-" EMMET ==============================================================
-let g:user_emmet_install_global = 0
 
 " FZF ================================================================
 let g:fzf_layout = { 'up': '100%' }
@@ -69,13 +69,18 @@ let delimitMate_expand_space = 1 " {|} => { | }
 
 " ALE ================================================================
 let g:ale_linters = {
-			\   'javascript': ['eslint', 'flow'],
+			\   'javascript': ['flow', 'eslint'],
 			\   'typescript': ['tslint'],
 			\   'css': ['stylelint'],
 			\}
+let g:ale_fixers = {
+			\   'javascript': ['prettier'],
+			\   'typescript': ['prettier'],
+			\   'css': ['prettier'],
+			\}
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 1
+let g:ale_fix_on_save = 1
 
 " UNDOTREE ===========================================================
 set undofile
@@ -191,7 +196,7 @@ set gdefault
 
 set background=dark
 set cursorline
-colorscheme paramount
+colorscheme gruvbox
 
 " CURSOR ==========================================================
 " Use a blinking upright bar cursor in Insert mode, a solid block in normal

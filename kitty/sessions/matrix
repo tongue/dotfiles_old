@@ -1,0 +1,7 @@
+layout tall
+
+cd ~/projects/private/dotmatrix-time-table
+focus
+launch nvim .
+launch zsh
+launch zsh
