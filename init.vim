@@ -34,9 +34,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'mbbill/undotree'
 Plug 'dyng/ctrlsf.vim'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'prettier/vim-prettier', {
-			\ 'do': 'yarn install',
-			\ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
 Plug 'sgur/vim-editorconfig'
 Plug 'pangloss/vim-javascript'
 Plug 'chemzqm/vim-jsx-improve'
@@ -94,18 +91,6 @@ let &undodir = undodir
 " CTRLSF ===========================================================
 let g:ctrlsf_default_root = 'project'
 let g:ctrlsf_populate_qflist = 1
-
-" PRETTIER =========================================================
-let g:prettier#config#print_width = 80
-let g:prettier#config#tab_width = 2
-let g:prettier#config#use_tabs = 'true'
-let g:prettier#config#semi = 'true'
-let g:prettier#config#single_quote = 'false'
-let g:prettier#config#bracket_spacing = 'true'
-let g:prettier#config#jsx_bracket_same_line = 'false'
-let g:prettier#config#trailing_comma = 'none'
-let g:prettier#config#parser = 'typescript'
-let g:prettier#config#config_precedence = 'cli-override'
 
 " JSX ==============================================================
 let g:jsx_ext_required = 0
