@@ -1,3 +1,3 @@
-:map <buffer> <C-]> :TSDef<CR>
-:map <buffer> <C-[> :TSDefPreview<CR>
-:map <buffer> <Leader>tsr :TSRefs<CR>
+:nnoremap <buffer> K :call LanguageClient_textDocument_hover()<CR>
+:nnoremap <buffer> gd :call LanguageClient_textDocument_definition()<CR>
+:nnoremap <buffer> <Leader>mv :call LanguageClient_textDocument_rename()<CR>

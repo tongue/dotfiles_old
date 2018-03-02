@@ -102,7 +102,10 @@ plugins=(git git-extras github bower colorize brew node svn svn-fastinfo)
 source $ZSH/oh-my-zsh.sh
 
 # Path
+export ANDROID_HOME=/usr/local/share/android-sdk
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/npm/bin
 export LC_ALL="en_US.UTF-8"
+
+export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

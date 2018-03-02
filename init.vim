@@ -14,17 +14,14 @@ Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Quramy/tsuquyomi'
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
-Plug 'scrooloose/nerdtree'
 Plug 'tmhedberg/matchit'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-vinegar'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'w0rp/ale'
@@ -37,11 +34,18 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'sgur/vim-editorconfig'
 Plug 'pangloss/vim-javascript'
 Plug 'chemzqm/vim-jsx-improve'
-Plug 'roxma/nvim-completion-manager'
+Plug 'mhartington/nvim-typescript'
 Plug 'calebeby/ncm-css'
 Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
 Plug 'roxma/ncm-flow'
 Plug 'mattn/emmet-vim'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+Plug 'roxma/nvim-completion-manager'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " AUTOCMD ==========================================================
@@ -55,11 +59,6 @@ function! s:fzf_ag_raw(cmd)
   call fzf#vim#ag_raw(a:cmd)
 endfunction
 
-" NERDTREE ===========================================================
-let NERDTreeMinimalUI=1
-let NERDTreeWinSize=40
-let NERDTreeShowHidden=1
-
 " DELIMITMATE ========================================================
 let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1 " {|} => { | }
@@ -67,14 +66,14 @@ let delimitMate_expand_space = 1 " {|} => { | }
 " ALE ================================================================
 let g:ale_linters = {
 			\   'javascript': ['flow', 'eslint'],
-			\   'typescript': ['tslint'],
 			\   'css': ['stylelint'],
+			\   'scss': ['stylelint'],
 			\}
-let g:ale_fixers = {
-			\   'javascript': ['prettier'],
-			\   'typescript': ['prettier'],
-			\   'css': ['prettier'],
-			\}
+" \   'css': ['prettier'],
+" let g:ale_fixers = {
+" 			\   'javascript': ['prettier'],
+" 			\   'scss': ['prettier'],
+" 			\}
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
@@ -113,6 +112,9 @@ nnoremap <Leader>v `[v`]
 " Clear search highlights
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
+" Only
+nnoremap <BS><BS> :only<CR>
+
 " FZF
 nnoremap <leader>o :GFiles<CR>
 nnoremap <leader>e :Buffers<CR>
@@ -140,6 +142,16 @@ inoremap <Leader>ft <Esc>:CtrlSFToggle<CR>
 " The default value for g:UltiSnipsJumpBackwardTrigger interferes with the
 " built-in complete function: |i_CTRL-X_CTRL-K|
 inoremap <c-x><c-k> <c-x><c-k>
+
+" LanguageServer
+let g:LanguageClient_serverCommands = {
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ }
+
+let g:LanguageClient_diagnosticsEnable = 0
+let g:ale_set_highlights = 0
 
 " SETTINGS =========================================================
 syntax on
@@ -191,11 +203,25 @@ let &t_SI = "\<Esc>[5 q"
 let &t_SR = "\<Esc>[3 q"
 let &t_EI = "\<Esc>[2 q"
 
+function! Current_git_branch()
+	let l:branch = split(fugitive#statusline(),'[()]')
+	if len(l:branch) > 1
+		return remove(l:branch, 1)
+	endif
+	return ""
+endfunction
+
 " STATUSLINE ======================================================
-set statusline=%<%f\ %h%m%r
-set statusline+=%=
+set statusline=
+set statusline+=%#PmenuSel#
 set statusline+=\ 
+set statusline+=%{Current_git_branch()}
+set statusline+=\ 
+set statusline+=%#LineNr#
+set statusline+=\ %<%f\ %h%m%r
+set statusline+=%=
 set statusline+=%{ALEGetStatusLine()}
 set statusline+=\ 
+set statusline+=\ \[%{&fileencoding?&fileencoding:&encoding}\]
+set statusline+=\[%{&fileformat}\]
 set statusline+=%y
-set statusline+=%{fugitive#statusline()}
