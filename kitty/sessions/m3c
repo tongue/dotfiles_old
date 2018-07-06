@@ -2,6 +2,6 @@ layout tall
 
 cd ~/projects/3dk/app
 focus
-launch nvim .
-launch npm run dev
+launch zsh
+launch zsh
 launch zsh

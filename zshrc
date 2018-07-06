@@ -4,8 +4,9 @@ ZSH=$HOME/.oh-my-zsh
 export EDITOR="nvim"
 export TERM='xterm-256color'
 
-# ZSH_THEME="terminalparty"
-ZSH_THEME="avit"
+ZSH_THEME="terminalparty"
+# ZSH_THEME="avit"
+# ZSH_THEME="wezm"
 
 # Aliases
 alias zshconfig="nvim ~/.zshrc"
@@ -97,15 +98,19 @@ function findbyport() {
 }
 
 # Plugins
-plugins=(git git-extras github bower colorize brew node svn svn-fastinfo)
+plugins=(git git-extras github bower colorize brew node svn svn-fastinfo yarn nyan jsontools common-aliases)
 
 source $ZSH/oh-my-zsh.sh
 
 # Path
 export ANDROID_HOME=/usr/local/share/android-sdk
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/npm/bin
+export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
 export LC_ALL="en_US.UTF-8"
 
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
+
+export NVM_DIR="$HOME/.nvm"
+  . "/usr/local/opt/nvm/nvm.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

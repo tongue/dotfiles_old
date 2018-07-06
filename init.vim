@@ -11,12 +11,12 @@ let g:mapleader = "\<Space>"
 call plug#begin('~/.config/nvim/plugged')
 Plug 'tongue/vim-colors-paramount'
 Plug 'morhetz/gruvbox'
+Plug 'fenetikm/falcon'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'junegunn/vim-peekaboo'
 Plug 'tmhedberg/matchit'
-Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -46,10 +46,13 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'roxma/nvim-completion-manager'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-unimpaired'
+Plug 'scrooloose/nerdtree'
+Plug 'kshenoy/vim-signature'
+Plug 'mustache/vim-mustache-handlebars'
 call plug#end()
 
 " AUTOCMD ==========================================================
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 
 " FZF ================================================================
@@ -66,14 +69,15 @@ let delimitMate_expand_space = 1 " {|} => { | }
 " ALE ================================================================
 let g:ale_linters = {
 			\   'javascript': ['flow', 'eslint'],
+			\   'typescript': ['tslint'],
 			\   'css': ['stylelint'],
 			\   'scss': ['stylelint'],
 			\}
-" \   'css': ['prettier'],
-" let g:ale_fixers = {
-" 			\   'javascript': ['prettier'],
-" 			\   'scss': ['prettier'],
-" 			\}
+let g:ale_fixers = {
+			\   'javascript': ['prettier'],
+			\   'typescript': ['prettier'],
+			\   'scss': ['prettier'],
+			\}
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
@@ -86,6 +90,12 @@ if !isdirectory(undodir)
 	call mkdir(undodir, 'p')
 endif
 let &undodir = undodir
+
+" NERDTREE ===========================================================
+let NERDTreeMinimalUI=1
+let NERDTreeShowHidden=1
+let NERDTreeHijackNetrw=0
+let NERDTreeWinSize=100
 
 " CTRLSF ===========================================================
 let g:ctrlsf_default_root = 'project'

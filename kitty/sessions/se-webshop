@@ -2,7 +2,7 @@ layout tall
 
 cd ~/projects/trese/Tre.Webshop/src/Tre.Webshop/
 focus
-launch nvim .
-launch npm start
-launch npm run typed-css:watch
+launch zsh
+launch zsh
+launch zsh
 launch zsh
