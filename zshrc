@@ -14,6 +14,8 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias status="git status -s"
 alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias linesofcode="find . -name '*.*' | xargs wc -l"
+alias cpwd="pwd | pbcopy"
+alias update_kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
 
 # Dscript
 alias ds="./dscript.sh"
@@ -98,19 +100,20 @@ function findbyport() {
 }
 
 # Plugins
-plugins=(git git-extras github bower colorize brew node svn svn-fastinfo yarn nyan jsontools common-aliases)
+plugins=(git git-extras github bower colorize brew node svn yarn jsontools common-aliases)
 
 source $ZSH/oh-my-zsh.sh
 
 # Path
-export ANDROID_HOME=/usr/local/share/android-sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/npm/bin
 export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
 export LC_ALL="en_US.UTF-8"
 
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
-
-export NVM_DIR="$HOME/.nvm"
-  . "/usr/local/opt/nvm/nvm.sh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

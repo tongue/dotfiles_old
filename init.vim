@@ -9,51 +9,35 @@ let $LANG = 'en'
 let g:mapleader = "\<Space>"
 
 call plug#begin('~/.config/nvim/plugged')
-Plug 'tongue/vim-colors-paramount'
-Plug 'morhetz/gruvbox'
-Plug 'fenetikm/falcon'
+Plug 'ayu-theme/ayu-vim'
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'junegunn/vim-peekaboo'
-Plug 'tmhedberg/matchit'
+Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-unimpaired'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'w0rp/ale'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'sheerun/vim-json'
-Plug 'leafgarland/typescript-vim'
 Plug 'mbbill/undotree'
 Plug 'dyng/ctrlsf.vim'
-Plug 'bronson/vim-trailing-whitespace'
 Plug 'sgur/vim-editorconfig'
-Plug 'pangloss/vim-javascript'
-Plug 'chemzqm/vim-jsx-improve'
-Plug 'mhartington/nvim-typescript'
-Plug 'calebeby/ncm-css'
-Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
-Plug 'roxma/ncm-flow'
 Plug 'mattn/emmet-vim'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-Plug 'roxma/nvim-completion-manager'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-unimpaired'
 Plug 'scrooloose/nerdtree'
 Plug 'kshenoy/vim-signature'
-Plug 'mustache/vim-mustache-handlebars'
+Plug 'sheerun/vim-polyglot'
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 " AUTOCMD ==========================================================
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+
+" Trigger autoread when changing buffers or coming back to vim.
+au FocusGained,BufEnter * :silent! !
 
 " FZF ================================================================
 let g:fzf_layout = { 'up': '100%' }
@@ -68,19 +52,18 @@ let delimitMate_expand_space = 1 " {|} => { | }
 
 " ALE ================================================================
 let g:ale_linters = {
-			\   'javascript': ['flow', 'eslint'],
-			\   'typescript': ['tslint'],
+			\   'javascript': ['eslint', 'stylelint'],
 			\   'css': ['stylelint'],
 			\   'scss': ['stylelint'],
 			\}
 let g:ale_fixers = {
 			\   'javascript': ['prettier'],
-			\   'typescript': ['prettier'],
-			\   'scss': ['prettier'],
+			\   'json': ['prettier'],
 			\}
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
+let g:ale_set_highlights = 0
 
 " UNDOTREE ===========================================================
 set undofile
@@ -94,8 +77,7 @@ let &undodir = undodir
 " NERDTREE ===========================================================
 let NERDTreeMinimalUI=1
 let NERDTreeShowHidden=1
-let NERDTreeHijackNetrw=0
-let NERDTreeWinSize=100
+let NERDTreeHijackNetrw=1
 
 " CTRLSF ===========================================================
 let g:ctrlsf_default_root = 'project'
@@ -109,9 +91,6 @@ let g:jsx_ext_required = 0
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
-
-" Visual line
-nmap <Leader><Leader> V
 
 " Write file
 nnoremap <leader>w :w<CR>
@@ -149,19 +128,17 @@ nnoremap <Leader>ft :CtrlSFToggle<CR>
 inoremap <Leader>ft <Esc>:CtrlSFToggle<CR>
 
 " UltiSnips
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsSnippetDirectories=[$HOME.'/dotfiles/UltiSnips']
 " The default value for g:UltiSnipsJumpBackwardTrigger interferes with the
 " built-in complete function: |i_CTRL-X_CTRL-K|
 inoremap <c-x><c-k> <c-x><c-k>
 
-" LanguageServer
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ }
-
-let g:LanguageClient_diagnosticsEnable = 0
-let g:ale_set_highlights = 0
+" COC
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " SETTINGS =========================================================
 syntax on
@@ -202,16 +179,10 @@ set smartcase
 set gdefault
 
 set background=dark
+set termguicolors
 set cursorline
-colorscheme gruvbox
-
-" CURSOR ==========================================================
-" Use a blinking upright bar cursor in Insert mode, a solid block in normal
-" and a blinking underline in replace mode
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-let &t_SI = "\<Esc>[5 q"
-let &t_SR = "\<Esc>[3 q"
-let &t_EI = "\<Esc>[2 q"
+let ayucolor="mirage"
+colorscheme ayu
 
 function! Current_git_branch()
 	let l:branch = split(fugitive#statusline(),'[()]')
@@ -219,6 +190,19 @@ function! Current_git_branch()
 		return remove(l:branch, 1)
 	endif
 	return ""
+endfunction
+
+function! LinterStatus() abort
+	let l:counts = ale#statusline#Count(bufnr(''))
+
+	let l:all_errors = l:counts.error + l:counts.style_error
+	let l:all_non_errors = l:counts.total - l:all_errors
+
+	return l:counts.total == 0 ? 'OK' : printf(
+				\   '%dW %dE',
+				\   all_non_errors,
+				\   all_errors
+				\)
 endfunction
 
 " STATUSLINE ======================================================
@@ -230,7 +214,7 @@ set statusline+=\
 set statusline+=%#LineNr#
 set statusline+=\ %<%f\ %h%m%r
 set statusline+=%=
-set statusline+=%{ALEGetStatusLine()}
+set statusline+=%{LinterStatus()}
 set statusline+=\ 
 set statusline+=\ \[%{&fileencoding?&fileencoding:&encoding}\]
 set statusline+=\[%{&fileformat}\]
