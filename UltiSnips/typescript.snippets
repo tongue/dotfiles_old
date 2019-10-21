@@ -1,0 +1,71 @@
+snippet im
+import $1 from "$0";
+endsnippet
+
+snippet imr
+import React from "react";
+endsnippet
+
+snippet imrn
+import { $0 } from "react-native";
+endsnippet
+
+snippet imrne
+import styled from "@emotion/native";
+endsnippet
+
+snippet ime
+import styled from "@emotion/styled";
+endsnippet
+
+snippet imem
+import styled from "@emotion/styled/macro";
+endsnippet
+
+snippet fun
+function $1(${2:props}) {
+	$0
+}
+endsnippet
+
+snippet fn
+const $1 = (${2:props}) => {
+	$0
+};
+endsnippet
+
+snippet cl
+console.log($0)
+endsnippet
+
+snippet map
+$1.map((${2:value}) => {$0});
+endsnippet
+
+snippet pt
+$1.propTypes = {
+	$0
+};
+endsnippet
+
+snippet dp
+$1.defaultProps = {
+	$0
+};
+endsnippet
+
+snippet styled
+const $1 = styled$2`
+	$0
+`;
+endsnippet
+
+snippet rc
+import React from "react";
+
+function $1(${2:props}): React.FC {
+	$0
+}
+
+export default $1;
+endsnippet

@@ -51,19 +51,12 @@ let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1 " {|} => { | }
 
 " ALE ================================================================
-let g:ale_linters = {
-			\   'javascript': ['eslint', 'stylelint'],
-			\   'css': ['stylelint'],
-			\   'scss': ['stylelint'],
-			\}
 let g:ale_fixers = {
 			\   'javascript': ['prettier'],
+			\   'typescript': ['prettier'],
 			\   'json': ['prettier'],
 			\}
-let g:ale_sign_column_always = 1
-let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
-let g:ale_set_highlights = 0
 
 " UNDOTREE ===========================================================
 set undofile
@@ -87,41 +80,31 @@ let g:ctrlsf_populate_qflist = 1
 let g:jsx_ext_required = 0
 
 " MAPPINGS =========================================================
-" Git
 nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 
-" Write file
 nnoremap <leader>w :w<CR>
 
-" Visually select pasted text
 nnoremap <Leader>v `[v`]
 
-" Clear search highlights
 nnoremap <silent> <Esc><Esc> :nohlsearch<CR><Esc>
 
-" Only
 nnoremap <BS><BS> :only<CR>
 
-" FZF
 nnoremap <leader>o :GFiles<CR>
 nnoremap <leader>e :Buffers<CR>
 nnoremap <leader>i :Files<CR>
 nnoremap <leader>u :Ag<CR>
 
-" NerdTree
 silent! map <Leader>1 :NERDTreeToggle<CR>
 silent! map <Leader>2 :NERDTreeFind<CR>
 
-" ALE
 nmap <silent> <Up> <Plug>(ale_previous_wrap)
 nmap <silent> <Down> <Plug>(ale_next_wrap)
 
-" UndoTree
 nnoremap <Leader>0 :UndotreeToggle<CR>
 
-" CtrlSF
 nmap <Leader>ff <Plug>CtrlSFPrompt
 vmap <Leader>ff <Plug>CtrlSFPromptExec
 nnoremap <Leader>ft :CtrlSFToggle<CR>
@@ -192,19 +175,6 @@ function! Current_git_branch()
 	return ""
 endfunction
 
-function! LinterStatus() abort
-	let l:counts = ale#statusline#Count(bufnr(''))
-
-	let l:all_errors = l:counts.error + l:counts.style_error
-	let l:all_non_errors = l:counts.total - l:all_errors
-
-	return l:counts.total == 0 ? 'OK' : printf(
-				\   '%dW %dE',
-				\   all_non_errors,
-				\   all_errors
-				\)
-endfunction
-
 " STATUSLINE ======================================================
 set statusline=
 set statusline+=%#PmenuSel#
@@ -214,7 +184,7 @@ set statusline+=\
 set statusline+=%#LineNr#
 set statusline+=\ %<%f\ %h%m%r
 set statusline+=%=
-set statusline+=%{LinterStatus()}
+set statusline+=%{coc#status()}%{get(b:,'coc_current_function','')}
 set statusline+=\ 
 set statusline+=\ \[%{&fileencoding?&fileencoding:&encoding}\]
 set statusline+=\[%{&fileformat}\]

@@ -16,6 +16,7 @@ alias myip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-
 alias linesofcode="find . -name '*.*' | xargs wc -l"
 alias cpwd="pwd | pbcopy"
 alias update_kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
+alias android-simulator="~/Library/Android/sdk/emulator/emulator -avd Nexus_5X_API_28_x86 -netdelay none -netspeed full"
 
 # Dscript
 alias ds="./dscript.sh"
