@@ -10,6 +10,8 @@ let g:mapleader = "\<Space>"
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'ayu-theme/ayu-vim'
+Plug 'axvr/photon.vim'
+Plug 'gruvbox-community/gruvbox'
 Plug 'SirVer/ultisnips'
 Plug 'junegunn/vim-peekaboo'
 Plug 'andymass/vim-matchup'
@@ -20,7 +22,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-unimpaired'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Raimondi/delimitMate'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'mbbill/undotree'
 Plug 'dyng/ctrlsf.vim'
 Plug 'sgur/vim-editorconfig'
@@ -31,6 +33,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'kshenoy/vim-signature'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
+" Plug 'neovim/nvim-lsp'
 Plug 'airblade/vim-gitgutter'
 call plug#end()
 
@@ -51,12 +54,14 @@ let delimitMate_expand_cr = 2
 let delimitMate_expand_space = 1 " {|} => { | }
 
 " ALE ================================================================
-let g:ale_fixers = {
-			\   'javascript': ['prettier'],
-			\   'typescript': ['prettier'],
-			\   'json': ['prettier'],
-			\}
-let g:ale_fix_on_save = 1
+" let g:ale_fixers = {
+" 			\   'javascript': ['prettier'],
+" 			\   'typescript': ['prettier'],
+" 			\   'json': ['prettier'],
+" 			\   'svelte': ['prettier'],
+" 			\   'css': ['prettier'],
+" 			\}
+" let g:ale_fix_on_save = 1
 
 " UNDOTREE ===========================================================
 set undofile
@@ -123,6 +128,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+
 " SETTINGS =========================================================
 syntax on
 
@@ -164,7 +171,11 @@ set gdefault
 set background=dark
 set termguicolors
 set cursorline
-let ayucolor="mirage"
+let ayucolor="dark"
+" let g:gruvbox_contrast_dark = "soft"
+" let g:gruvbox_italic = 1
+" let g:gruvbox_underline = 1
+" let g:gruvbox_undercurl = 1
 colorscheme ayu
 
 function! Current_git_branch()

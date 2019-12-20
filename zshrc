@@ -101,7 +101,7 @@ function findbyport() {
 }
 
 # Plugins
-plugins=(git git-extras github bower colorize brew node svn yarn jsontools common-aliases)
+plugins=(fzf git git-extras github bower colorize brew node svn yarn jsontools common-aliases)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -113,7 +113,9 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/npm/bin
 export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
 export LC_ALL="en_US.UTF-8"
+export FZF_BASE=/usr/local/bin/fzf
 
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 
