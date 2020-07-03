@@ -116,6 +116,9 @@ export PATH="/usr/local/opt/python@2/libexec/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export LC_ALL="en_US.UTF-8"
 export FZF_BASE=/usr/local/bin/fzf
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
 
